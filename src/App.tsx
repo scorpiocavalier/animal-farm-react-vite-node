@@ -7,7 +7,7 @@ export interface IAnimal {
   age: number
 }
 
-function App() {
+function useAnimalSearch() {
   const [animals, setAnimals] = useState([]);
 
   useEffect(() => {
@@ -26,7 +26,13 @@ function App() {
     setAnimals(data);
 
     localStorage.setItem('lastQuery', q);
-  }
+  };
+
+  return { search, animals };
+}
+
+function App() {
+  const { search, animals } = useAnimalSearch();
 
   return (
     <main>
