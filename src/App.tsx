@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface IAnimal {
   id: number,
@@ -10,6 +10,12 @@ export interface IAnimal {
 function App() {
   const [animals, setAnimals] = useState([]);
 
+  useEffect(() => {
+    const lastQuery = localStorage.getItem('lastQuery') ?? '';
+
+    search(lastQuery);
+  }, []);
+
   const search = async (q: string) => {
     const response = await fetch(
       'http://localhost:8080?' + new URLSearchParams({ q })
@@ -18,6 +24,8 @@ function App() {
     const data = await response.json();
 
     setAnimals(data);
+
+    localStorage.setItem('lastQuery', q);
   }
 
   return (
